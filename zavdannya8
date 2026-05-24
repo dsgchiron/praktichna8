@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Lab8_Variant24
+{
+    // Оголошення структури
+    struct Import
+    {
+        public string productName; // Назва товару
+        public string country;     // Країна імпортер
+        public int quantity;       // Кількість товару
+
+        // Метод, що повертає рядок із значеннями полів
+        public string GetInfo()
+        {
+            return productName + " | Країна: " + country + " | Кількість: " + Convert.ToString(quantity);
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Список для зберігання даних
+            List<Import> importsList = new List<Import>();
+            Import tempImport;
+            Console.InputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
+
+            Console.Write("Введіть кількість записів для додавання: ");
+            int count = Convert.ToInt32(Console.ReadLine());
+
+            // Введення даних з клавіатури
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine($"\n--- Запис {i + 1} ---");
+
+                Console.Write("Назва товару: ");
+                tempImport.productName = Console.ReadLine();
+
+                Console.Write("Країна імпортер: ");
+                tempImport.country = Console.ReadLine();
+
+                Console.Write("Кількість товару: ");
+                tempImport.quantity = Convert.ToInt32(Console.ReadLine());
+
+                importsList.Add(tempImport);
+            }
+
+            // Виведення списку на екран
+            Console.WriteLine("\n=== Список імпортованих товарів ===");
+            for (int i = 0; i < importsList.Count; i++)
+            {
+                Console.WriteLine(importsList[i].GetInfo());
+            }
+
+            // 1. Пошук загального обсягу імпорту за назвою товару
+            Console.Write("\nВведіть назву товару для пошуку обсягу імпорту: ");
+            string searchProduct = Console.ReadLine();
+            int totalProductQuantity = 0;
+
+            for (int i = 0; i < importsList.Count; i++)
+            {
+                // Використовуємо ToLower() для ігнорування регістру букв при порівнянні
+                if (importsList[i].productName.ToLower() == searchProduct.ToLower())
+                {
+                    totalProductQuantity += importsList[i].quantity;
+                }
+            }
+            Console.WriteLine($"Загальний обсяг імпорту товару '{searchProduct}': {totalProductQuantity}");
+
+            // 2. Пошук загального обсягу імпорту за країною
+            Console.Write("\nВведіть назву країни для пошуку обсягу імпорту: ");
+            string searchCountry = Console.ReadLine();
+            int totalCountryQuantity = 0;
+
+            for (int i = 0; i < importsList.Count; i++)
+            {
+                if (importsList[i].country.ToLower() == searchCountry.ToLower())
+                {
+                    totalCountryQuantity += importsList[i].quantity;
+                }
+            }
+            Console.WriteLine($"Загальний обсяг імпорту з країни '{searchCountry}': {totalCountryQuantity}");
+
+            Console.ReadKey();
+        }
+    }
+}
